@@ -16,9 +16,17 @@ include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 
 [lib]
 path = "bindings/rust/lib.rs"
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-tree-sitter = "0.22.5"
+tree-sitter = { version = "0.22.5", optional = true }
+tree-sitter-c2rust = { version = "0.22.5", optional = true }
+wasm-bindgen = { version = "0.2", optional = true }
+
+[features]
+default = ["wasm"]
+wasm = ["dep:tree-sitter-c2rust", "dep:wasm-bindgen"]
+native = ["dep:tree-sitter"]
 
 [build-dependencies]
 cc = "1.0.87"

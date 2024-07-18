@@ -1,7 +1,16 @@
 fn main() {
     let src_dir = std::path::Path::new("src");
-
     let mut c_config = cc::Build::new();
+    println!("cargo:warning=*******************************************************************");
+
+    if std::env::var("TARGET").unwrap() == "wasm32-unknown-unknown" {
+        // Uses Emscripten compiler
+        c_config.compiler("emcc");
+    } else {
+        panic!("FUCK YOU");
+    }
+    println!("cargo:warning=-----------------------------------------------------------");
+
     c_config.std("c11").include(src_dir);
 
     #[cfg(target_env = "msvc")]
